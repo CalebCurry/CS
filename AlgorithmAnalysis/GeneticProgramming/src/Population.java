@@ -16,8 +16,19 @@ public class Population {
 	
 	BinaryChromosome evaluate()
 	{
+		BinaryChromosome best = population.get(0);
 		//This will return the chromosome with the highest fitness
-		return null;
+		for (int i = 0; i < population.size(); i++)
+		{
+			if(Math.abs(population.get(i).getFitness()) < Math.abs(best.getFitness()))
+			{
+			  best = population.get(i);
+			}
+		}
+		
+		System.out.println("Eval inside evaluate");
+		System.out.println(best.getFitness());
+		return best;
 	}
 	
 	void breed()
