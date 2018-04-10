@@ -81,4 +81,14 @@ public class BinaryChromosome implements Chromosome
         
         return result;
     }
+    
+    String getBinaryString()
+    {
+    	String result = "";
+    	for (int i = 0; i < bits.length; i++)
+    	{
+    		result += bits[i];
+    	}
+    	return result;
+    }
 }

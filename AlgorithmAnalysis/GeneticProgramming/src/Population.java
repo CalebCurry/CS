@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Population {
 
-	//ArrayList<BinaryChromosome> population = new ArrayList<BinaryChromosome>();
+	ArrayList<BinaryChromosome> population = new ArrayList<BinaryChromosome>();
 	
 	Population()
 	{
@@ -11,7 +11,7 @@ public class Population {
 	
 	void addChromosome(BinaryChromosome chromosome)
 	{
-		
+		population.add(chromosome);
 	}
 	
 	BinaryChromosome evaluate()
