@@ -20,7 +20,7 @@ public class Population {
 		//This will return the chromosome with the highest fitness
 		for (int i = 0; i < population.size(); i++)
 		{
-			if(Math.abs(population.get(i).getFitness()) < Math.abs(best.getFitness()))
+			if(Math.abs(population.get(i).getFitness()) > Math.abs(best.getFitness()))
 			{
 			  best = population.get(i);
 			}

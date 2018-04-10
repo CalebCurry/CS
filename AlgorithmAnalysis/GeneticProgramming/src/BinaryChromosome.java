@@ -5,13 +5,35 @@ public class BinaryChromosome implements Chromosome
     protected int [] bits;
     double x;
     double y;
+    double max;
     private Random random = new Random ();
+
     
     public BinaryChromosome (int numbits, double x, double y)
     {
         bits = new int [numbits];
         this.x = x;
         this.y = y;
+        
+        int max_x;
+        if(x > 0)
+        {
+        	max_x = 255;
+        } else
+        {
+        	max_x = -255;
+        }
+        int max_y;
+        if(y > 0)
+        {
+        	max_y = 255;
+        } else
+        {
+        	max_y = -255;
+        }
+        
+        
+        max = 255*max_x + 255*max_y + 255;
     }
     
     public void randomize ()
@@ -82,6 +104,7 @@ public class BinaryChromosome implements Chromosome
     		return 0;
     	}
     	
+    	
     	double A = (negativeOrPositive(getNumber(0, 0),getNumber(1, 8)) /  negativeOrPositive(getNumber(9, 9),getNumber(10, 17)));
     	double B = (negativeOrPositive(getNumber(18,18), getNumber(19, 26)) / negativeOrPositive(getNumber(27,27), getNumber(28, 35)));
     	double C = (negativeOrPositive(getNumber(36,36), getNumber(37, 44)) / negativeOrPositive(getNumber(45,45), getNumber(46, 53)));
@@ -96,14 +119,20 @@ public class BinaryChromosome implements Chromosome
     	System.out.println(getNumber(45, 45));
     	*/
     	
+    	
     	double result = A*x + B*y + C;
     	
+    	System.out.println("Before normalization: " + result);
+    	System.out.println("max: " + max);
+    	
+    	double value = (max - Math.abs(result)) / max;
     	
     	System.out.println("("+ (negativeOrPositive(getNumber(0, 0),getNumber(1, 8))) +  "/" + negativeOrPositive(getNumber(9, 9),getNumber(10, 17)) + ") (" + x + ")"
 				+ " + ("+ negativeOrPositive(getNumber(18,18), getNumber(19, 26)) +  "/" + negativeOrPositive(getNumber(27,27), getNumber(28, 35))+ ") (" + y + ")"
 				+ " + (" + negativeOrPositive(getNumber(36,36), getNumber(37, 44)) +  "/" + negativeOrPositive(getNumber(45,45), getNumber(46, 53)) + ") = " + result );
     	
-    	return result;
+    	System.out.println("final value normalized: " + value);
+    	return value;
     	
     }
     

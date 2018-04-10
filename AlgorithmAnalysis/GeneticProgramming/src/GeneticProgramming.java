@@ -4,8 +4,8 @@ public class GeneticProgramming {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		double x = 5;
-		double y = 20;
+		double x = -3;
+		double y = 2;
 		Population population = new Population();
 		
 		for (int i = 0; i < 100; i++)
