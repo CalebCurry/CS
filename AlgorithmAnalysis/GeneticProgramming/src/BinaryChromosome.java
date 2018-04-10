@@ -65,24 +65,46 @@ public class BinaryChromosome implements Chromosome
         return newChromosome;
     }
 
+    double negativeOrPositive(int bit, int number)
+    {
+    	if (bit == 0)
+    	{
+    		return number;
+    	}
+    	return -number;
+    }
+    
     @Override
     public double getFitness()
     {
-    	//currently having a divide by zero issue occasionally
-    	double result = ((double)getNumber(1, 8) /  getNumber(10, 17)) * x
-						+ ((double)getNumber(19, 26) / getNumber(28, 35)) * y
-						+ ((double)getNumber(37, 44) / getNumber(46, 53));
+    	if (getNumber(10, 17) == 0 || getNumber(28, 35) == 0 || getNumber(46, 53) == 0)
+    	{
+    		return 0;
+    	}
     	
-    	System.out.println("("+ getNumber(1, 8) +  "/" + getNumber(10, 17) + ") (" + x + ")"
-				+ " + ("+ getNumber(19, 26) +  "/" + getNumber(28, 35) + ") (" + y + ")"
-				+ " + (" + getNumber(37, 44) +  "/" + getNumber(46, 53) + ") = " + result );
+    	double A = (negativeOrPositive(getNumber(0, 0),getNumber(1, 8)) /  negativeOrPositive(getNumber(9, 9),getNumber(10, 17)));
+    	double B = (negativeOrPositive(getNumber(18,18), getNumber(19, 26)) / negativeOrPositive(getNumber(27,27), getNumber(28, 35)));
+    	double C = (negativeOrPositive(getNumber(36,36), getNumber(37, 44)) / negativeOrPositive(getNumber(45,45), getNumber(46, 53)));
+    	
+				
+		/*
+    	System.out.println(getNumber(0, 0));
+    	System.out.println(getNumber(9, 9));
+    	System.out.println(getNumber(18, 18));
+    	System.out.println(getNumber(27, 27));
+    	System.out.println(getNumber(36, 36));
+    	System.out.println(getNumber(45, 45));
+    	*/
+    	
+    	double result = A*x + B*y + C;
     	
     	
+    	System.out.println("("+ (negativeOrPositive(getNumber(0, 0),getNumber(1, 8))) +  "/" + negativeOrPositive(getNumber(9, 9),getNumber(10, 17)) + ") (" + x + ")"
+				+ " + ("+ negativeOrPositive(getNumber(18,18), getNumber(19, 26)) +  "/" + negativeOrPositive(getNumber(27,27), getNumber(28, 35))+ ") (" + y + ")"
+				+ " + (" + negativeOrPositive(getNumber(36,36), getNumber(37, 44)) +  "/" + negativeOrPositive(getNumber(45,45), getNumber(46, 53)) + ") = " + result );
     	
-    
-		
-        // This should be overridden by a subclass to be useful
-        return 0;
+    	return result;
+    	
     }
     
     public int getNumber (int first, int last)
