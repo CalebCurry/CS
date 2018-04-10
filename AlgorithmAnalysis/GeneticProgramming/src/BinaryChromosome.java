@@ -3,11 +3,15 @@ import java.util.Random;
 public class BinaryChromosome implements Chromosome
 {
     protected int [] bits;
+    double x;
+    double y;
     private Random random = new Random ();
     
-    public BinaryChromosome (int numbits)
+    public BinaryChromosome (int numbits, double x, double y)
     {
         bits = new int [numbits];
+        this.x = x;
+        this.y = y;
     }
     
     public void randomize ()
@@ -34,7 +38,7 @@ public class BinaryChromosome implements Chromosome
     @Override
     public Chromosome crossover(Chromosome other)
     {
-        return crossover ((BinaryChromosome) other, new BinaryChromosome (bits.length));
+        return crossover ((BinaryChromosome) other, new BinaryChromosome (bits.length, x, y));
     }
     
     public Chromosome crossover(BinaryChromosome other, BinaryChromosome newChromosome)
@@ -64,6 +68,19 @@ public class BinaryChromosome implements Chromosome
     @Override
     public double getFitness()
     {
+    	//currently having a divide by zero issue occasionally
+    	double result = ((double)getNumber(1, 8) /  getNumber(10, 17)) * x
+						+ ((double)getNumber(19, 26) / getNumber(28, 35)) * y
+						+ ((double)getNumber(37, 44) / getNumber(46, 53));
+    	
+    	System.out.println("("+ getNumber(1, 8) +  "/" + getNumber(10, 17) + ") (" + x + ")"
+				+ " + ("+ getNumber(19, 26) +  "/" + getNumber(28, 35) + ") (" + y + ")"
+				+ " + (" + getNumber(37, 44) +  "/" + getNumber(46, 53) + ") = " + result );
+    	
+    	
+    	
+    
+		
         // This should be overridden by a subclass to be useful
         return 0;
     }
