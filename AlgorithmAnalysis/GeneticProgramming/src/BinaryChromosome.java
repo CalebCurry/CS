@@ -122,7 +122,7 @@ public class BinaryChromosome implements Chromosome
     	
     	double result = A*x + B*y + C;
     	
-    	System.out.println("Before normalization: " + result);
+    	System.out.println("~~~~Before normalization: " + result);
     	System.out.println("max: " + max);
     	
     	double value = (max - Math.abs(result)) / max;
