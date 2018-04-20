@@ -1,0 +1,161 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class BinaryChromosome implements Chromosome
+{
+    protected int [] bits;
+    private Random random = new Random ();
+    ArrayList<Coordinate> coordinates;
+
+    
+    public BinaryChromosome (int numbits, ArrayList<Coordinate> coordinates)
+    {
+    	this.coordinates = coordinates;
+        bits = new int [numbits];
+    }
+    
+    public void randomize ()
+    {
+        for (int i = 0; i < bits.length; i++)
+            bits[i] = random.nextInt(2);
+    }
+    
+    @Override
+    public void mutate(double mutationRate)
+    {
+        for (int i = 0; i < bits.length; i++)
+        {
+            if (random.nextDouble() <= mutationRate)
+            {
+                if (bits[i] == 1)
+                    bits[i] = 0;
+                else
+                    bits[i] = 1;
+            }
+        }
+    }
+
+    @Override
+    public Chromosome crossover(Chromosome other)
+    {
+        return crossover ((BinaryChromosome) other, new BinaryChromosome (bits.length, coordinates));
+    }
+    
+    public Chromosome crossover(BinaryChromosome other, BinaryChromosome newChromosome)
+    {
+        int first = random.nextInt(bits.length);
+        int second = random.nextInt(bits.length);
+        
+        if (first > second)
+        {
+            int temp = first;
+            first = second;
+            second = temp;
+        }
+        
+        for (int i = 0; i < first; i++)
+            newChromosome.bits[i] = bits[i];
+
+        for (int i = first; i < second; i++)
+            newChromosome.bits[i] = other.bits[i];
+        
+        for (int i = second; i < bits.length; i++)
+            newChromosome.bits[i] = bits[i];
+        
+        return newChromosome;
+    }
+
+    double negativeOrPositive(int bit, int number)
+    {
+    	if (bit == 0)
+    	{
+    		return number;
+    	}
+    	return -number;
+    }
+    
+    @Override
+    public double getFitness()
+    {
+    	for (int i = 0; i < coordinates.size(); i++)
+    	{
+	    	int max_x;
+	        if(coordinates.get(i).x > 0)
+	        {
+	        	max_x = 255;
+	        } else
+	        {
+	        	max_x = -255;
+	        }
+	        int max_y;
+	        if(coordinates.get(i).y > 0)
+	        {
+	        	max_y = 255;
+	        } else
+	        {
+	        	max_y = -255;
+	        }
+	        
+	        int max = 255*max_x + 255*max_y + 255;
+	        
+	    	if (getNumber(10, 17) == 0 || getNumber(28, 35) == 0 || getNumber(46, 53) == 0)
+	    	{
+	    		return 0;
+	    	}
+	    	
+	    	double A = (negativeOrPositive(getNumber(0, 0),getNumber(1, 8)) /  negativeOrPositive(getNumber(9, 9),getNumber(10, 17)));
+	    	double B = (negativeOrPositive(getNumber(18,18), getNumber(19, 26)) / negativeOrPositive(getNumber(27,27), getNumber(28, 35)));
+	    	double C = (negativeOrPositive(getNumber(36,36), getNumber(37, 44)) / negativeOrPositive(getNumber(45,45), getNumber(46, 53)));
+	    	
+					
+			/*
+	    	System.out.println(getNumber(0, 0));
+	    	System.out.println(getNumber(9, 9));
+	    	System.out.println(getNumber(18, 18));
+	    	System.out.println(getNumber(27, 27));
+	    	System.out.println(getNumber(36, 36));
+	    	System.out.println(getNumber(45, 45));
+	    	*/
+	    	
+	    	
+	    	double result = A*coordinates.get(i).x + B*coordinates.get(i).y + C;
+	    	
+	    	System.out.println("~~~~Before normalization: " + result);
+	    	System.out.println("max: " + max);
+	    	
+	    	double value = (max - Math.abs(result)) / max;
+	    	
+	    	System.out.println("("+ (negativeOrPositive(getNumber(0, 0),getNumber(1, 8))) +  "/" + negativeOrPositive(getNumber(9, 9),getNumber(10, 17)) + ") (" + coordinates.get(i).x + ")"
+					+ " + ("+ negativeOrPositive(getNumber(18,18), getNumber(19, 26)) +  "/" + negativeOrPositive(getNumber(27,27), getNumber(28, 35))+ ") (" + coordinates.get(i).y + ")"
+					+ " + (" + negativeOrPositive(getNumber(36,36), getNumber(37, 44)) +  "/" + negativeOrPositive(getNumber(45,45), getNumber(46, 53)) + ") = " + result );
+	    	
+	    	System.out.println("final value normalized: " + value);
+	    	return value;
+    	}	
+    	return 0.0;
+    }
+    
+    public int getNumber (int first, int last)
+    {
+        int result = 0;
+        int placeValue = 1;
+        
+        for (int i = last; i >= first; i--)
+        {
+            result += (bits[i] * placeValue);
+            placeValue *= 2;
+        }
+        
+        return result;
+    }
+    
+    String getBinaryString()
+    {
+    	String result = "";
+    	for (int i = 0; i < bits.length; i++)
+    	{
+    		result += bits[i];
+    	}
+    	return result;
+    }
+}
