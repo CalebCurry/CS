@@ -34,6 +34,7 @@ public class Chess
 		BufferedReader reader = new BufferedReader( new InputStreamReader( System.in ) );
 		int numBoards = Integer.parseInt(reader.readLine());
 		
+		ArrayList<Board> boards = new ArrayList<Board>();
 		String[] lines = new String[8];
 		for (int i = 0; i < numBoards; i++)
 		{
@@ -41,10 +42,17 @@ public class Chess
 			{
 				lines[x] = reader.readLine();
 			}
-			Board board = getBoard(lines);
-			board.print();
-			
-			solveBoard();
+			boards.add(getBoard(lines));
+			//board.print();
+			if(numBoards > 1)
+			{
+				reader.readLine();
+			}
+		}
+		
+		for (int i = 0; i< numBoards; i++)
+		{
+			solveBoard(i, boards.get(i));
 		}
 	}
 	public Board getBoard(String[] lines)
@@ -64,7 +72,7 @@ public class Chess
 		}
 		return board;
 	}
-	
+
 	public Piece getPiece(char pieceCode)
 	{
 		if(pieceCode == 'P')
@@ -93,7 +101,7 @@ public class Chess
 		
 		
 	}
-	public Boolean solveBoard()
+	public Boolean solveBoard(int boardNumber, Board board)
 	{
 		return true;
 	}
