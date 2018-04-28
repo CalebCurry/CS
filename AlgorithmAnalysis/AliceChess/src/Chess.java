@@ -11,6 +11,9 @@ public class Chess
 	private int player1Wins = 0;
 	private int player2Wins = 0;
 	
+	private int currentRow = 0;
+	private int currentColumn = 0;
+	
 	public static void main(String[] args) throws NumberFormatException, IOException 
 	{	
 		Chess game = new Chess ();
@@ -61,6 +64,7 @@ public class Chess
 		for (int i = 0; i < lines.length; i++)
 		{
 			System.out.println(lines[1].length());
+			//+=2 because there are spaces in input 
 			for(int x = 0; x < lines[1].length(); x += 2)
 			{
 				Piece piece = getPiece( lines[i].charAt(x));
@@ -70,6 +74,7 @@ public class Chess
 				}	
 			}
 		}
+		board.print();
 		return board;
 	}
 
@@ -103,6 +108,34 @@ public class Chess
 	}
 	public Boolean solveBoard(int boardNumber, Board board)
 	{
+		//defaulting to avoid null checks but will be overridden
+		Piece piece = new Pawn(PieceColor.White);
+		
+		for (int i = 0; i < board.getWidth(); i++)
+		{
+			piece = board.getPiece(7, i);
+			
+			if (piece != null)
+			{
+				currentRow = 7;
+				currentColumn = i;
+				break;
+			}
+		}
+		
+		for (int i = 0; i < board.getHeight(); i++)
+		{
+			for (int j = 0; j < board.getWidth(); j++)
+			{
+				if(piece.isValidMove(currentRow, currentColumn, i, j) && board.getPiece(i, j) != null )
+				{
+					System.out.println(piece.getSymbol() + " has a VALID! From Row "+ currentRow + " column " + currentColumn + " to row "+ i + " column " + j);
+					
+				}
+			}
+		}
+		
+		System.out.println(piece.getSymbol());
 		return true;
 	}
 	

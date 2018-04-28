@@ -29,8 +29,8 @@ public class Board
 		if (! isValidCoords(startRow, startCol) || ! isValidCoords(endRow, endCol))
 			return false;
 		
-		if (! isPlayersPiece (player, board[startRow][startCol]))
-			return false;
+		//if (! isPlayersPiece (player, board[startRow][startCol]))
+		//	return false;
 		
 		if (! board[startRow][startCol].isValidMove (startRow, startCol, endRow, endCol))
 			return false;

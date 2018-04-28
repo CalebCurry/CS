@@ -36,4 +36,5 @@ public abstract class Piece
 	public abstract boolean isValidMove (int startRow, int startCol, int endRow, int endCol);
 	public abstract boolean needsClearPath ();
 	public abstract boolean getsPromoted ();
+	
 }

@@ -23,6 +23,11 @@ public class Bishop extends Piece
 	
 	public boolean isValidMove (int startRow, int startCol, int endRow, int endCol)
 	{
+		if (startRow == endRow && startCol == endCol)	
+		{
+			return false;
+		}
+		
 		if (Math.abs(startRow - endRow) == Math.abs(startCol - endCol))
 			return true;
 		
