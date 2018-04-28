@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.awt.MultipleGradientPaint.ColorSpaceType;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Chess 
@@ -7,25 +11,91 @@ public class Chess
 	private int player1Wins = 0;
 	private int player2Wins = 0;
 	
-	public static void main(String[] args) 
+	public static void main(String[] args) throws NumberFormatException, IOException 
 	{	
 		Chess game = new Chess ();
 		game.doThings ();
 	}
 	
-	public void doThings()
+	public void doThings() throws NumberFormatException, IOException
 	{
 		//based on a pre-order depth first traversal (the root node is visited before children)
 		//root of tree will be starting position
 		//then branch to all possible 	
 		
-		Board board = new Board();
-		board.print();
-		King piece = new King(PieceColor.White);
-		board.setPiece(0, 0, piece);
-		System.out.println("");
-		board.print();
+		//board.print();
+		//King piece = new King(PieceColor.White);
+		//board.setPiece(0, 0, piece);
+		//System.out.println("");
+		//board.print();
 		
+		System.out.println("Lets input");
+		//ArrayList<String> rows = new ArrayList<String>();
+		BufferedReader reader = new BufferedReader( new InputStreamReader( System.in ) );
+		int numBoards = Integer.parseInt(reader.readLine());
+		
+		String[] lines = new String[8];
+		for (int i = 0; i < numBoards; i++)
+		{
+			for (int x = 0; x < lines.length; x++)
+			{
+				lines[x] = reader.readLine();
+			}
+			Board board = getBoard(lines);
+			board.print();
+			
+			solveBoard();
+		}
+	}
+	public Board getBoard(String[] lines)
+	{
+		Board board = new Board();
+		for (int i = 0; i < lines.length; i++)
+		{
+			System.out.println(lines[1].length());
+			for(int x = 0; x < lines[1].length(); x += 2)
+			{
+				Piece piece = getPiece( lines[i].charAt(x));
+				if (piece != null)
+				{
+					board.setPiece(i, x/2, piece);
+				}	
+			}
+		}
+		return board;
+	}
+	
+	public Piece getPiece(char pieceCode)
+	{
+		if(pieceCode == 'P')
+		{
+			return new Pawn(PieceColor.White);
+		} else if (pieceCode == 'B')
+		{
+			return new Bishop(PieceColor.White);
+		} else if (pieceCode == 'R')
+		{
+			return new Rook(PieceColor.White);
+		} else if (pieceCode == 'N')
+		{
+			return new Knight(PieceColor.White);
+		} else if (pieceCode == 'Q')
+		{
+			return new Queen(PieceColor.White);
+		} else if (pieceCode == 'K')
+		{
+			return new King(PieceColor.White);
+		}
+		else 
+		{
+			return null;
+		}
+		
+		
+	}
+	public Boolean solveBoard()
+	{
+		return true;
 	}
 	
 	public void go ()
